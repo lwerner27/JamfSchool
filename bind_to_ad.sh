@@ -20,6 +20,10 @@ domain='domain.com'
 # Options: enable OR disable
 mobile='enable'
 
+# Enable or Disalbe the confirmation before a mobile account is created. 
+# Options: enable OR disable
+mobileconfirm='disable'
+
 # Set which shell to use for the terminal
 shell='/bin/bash'
 
@@ -38,6 +42,7 @@ localHome='enable'
     -ou $ou \
     -domain $domain \
     -mobile $mobile \
+    -mobileconfirm $mobileconfirm \
     -shell $shell \
     -groups $groups \
     -localhome $localHome 
