@@ -3,46 +3,15 @@
 # WHAT:
 # A script for binding macOS devies to AD with a set of common configurations
 
-# Get the computer name
-computerName="$(scutil --get LocalHostName)"
-
-# The username and password to authenticate against against AD with
-username='Administrator'
-password='password123'
-
-# OU DN path
-ou='CN=Computers,DC=DOMAIN,DC=COM'
-
-# The FQDN (or IP address) of the domain you are trying to join
-domain='domain.com'
-
-# Enable or Disable Mobile Acounts
-# Options: enable OR disable
-mobile='enable'
-
-# Enable or Disalbe the confirmation before a mobile account is created. 
-# Options: enable OR disable
-mobileconfirm='disable'
-
-# Set which shell to use for the terminal
-shell='/bin/bash'
-
-# Domain groups that should have Admin access
-groups='Domain Admins, Enterprise Admins'
-
-# Set whether or not to create a local home directory 
-# NOTE: requires 'enable' when mobile is also enabled 
-localHome='enable'
-
 # Binds the Computer to AD
 /usr/sbin/dsconfigad \
-    -a $computerName \
-    -u $username \
-    -p $password \
-    -ou $ou \
-    -domain $domain \
-    -mobile $mobile \
-    -mobileconfirm $mobileconfirm \
-    -shell $shell \
-    -groups $groups \
-    -localhome $localHome 
+    -a "$(scutil --get LocalHostName)" \
+    -u "username" \                                 # Username of the user with permission to bind to AD
+    -p "password" \                                 # Binding Users password
+    -ou "CN=Computers, DC=DOMAIN, DC=COM" \         # Distinguished name for the OU where the device should be located in AD
+    -domain "domain.com" \                          # Full Qualified Domain Name for the AD
+    -mobile "enable" \                              # Enable mobile accounts for users, options: enable or disable 
+    -mobileconfirm "disable" \                      # Enable or Disable confirmation before a mobile account is created, options: enable or disable 
+    -shell "/bin/bash" \                            # Specify the default shell for the terminal to use
+    -groups "Domain Admins, Enterprise Admins" \    # Names of groups that should have admin access when they login 
+    -localhome "enable"                             # Enable local home directories, enable is required if using mobile accounts, options: enable or disable
